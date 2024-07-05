@@ -1,4 +1,4 @@
-name: realm
+name: lm_reasoning
 channels:
   - pytorch
   - anaconda

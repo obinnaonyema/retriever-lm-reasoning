@@ -319,19 +319,22 @@ class RetLM():
 def load_models(args, device=None):
     print('Loading models...')
     tokenizer, encoder, retriever, qa_model, query_embedder = None, None, None, None, None
-    if args.reason_task == 'lm':
-        tokenizer = RealmTokenizer.from_pretrained("google/realm-cc-news-pretrained-scorer")
-        query_embedder = RealmEmbedder.from_pretrained("google/realm-orqa-nq-openqa").to(device)
-        encoder = RealmKnowledgeAugEncoder.from_pretrained("google/realm-cc-news-pretrained-encoder",
-                                                           num_candidates=args.reason_k).to(device)
-    elif args.reason_task == 'qa':
-        tokenizer = RealmTokenizer.from_pretrained("google/realm-orqa-nq-openqa")
-        query_embedder = RealmEmbedder.from_pretrained("google/realm-orqa-nq-openqa").to(device)
-        retriever = RealmRetriever.from_pretrained("google/realm-orqa-nq-openqa")
-        qa_model = RealmForOpenQA.from_pretrained("google/realm-orqa-nq-openqa", retriever=retriever).to(device)
-    print('Loaded models.')
-    return {'tokenizer': tokenizer, 'encoder': encoder, 'retriever': retriever, 'qa_model': qa_model,
-            'query_embedder': query_embedder}
+    try:
+        if args.reason_task == 'lm':
+            tokenizer = RealmTokenizer.from_pretrained("google/realm-cc-news-pretrained-scorer")
+            query_embedder = RealmEmbedder.from_pretrained("google/realm-orqa-nq-openqa").to(device)
+            encoder = RealmKnowledgeAugEncoder.from_pretrained("google/realm-cc-news-pretrained-encoder",
+                                                               num_candidates=args.reason_k).to(device)
+        elif args.reason_task == 'qa':
+            tokenizer = RealmTokenizer.from_pretrained("google/realm-orqa-nq-openqa")
+            query_embedder = RealmEmbedder.from_pretrained("google/realm-orqa-nq-openqa").to(device)
+            retriever = RealmRetriever.from_pretrained("google/realm-orqa-nq-openqa")
+            qa_model = RealmForOpenQA.from_pretrained("google/realm-orqa-nq-openqa", retriever=retriever).to(device)
+        print('Loaded models.')
+        return {'tokenizer': tokenizer, 'encoder': encoder, 'retriever': retriever, 'qa_model': qa_model,
+                'query_embedder': query_embedder}
+    except Exception as e:
+        print('An exception occurred:', e)
 
 
 def truncate_and_pad_candidates(facts, MAX_CANDIDATE_NUM=None, MIN_CANDIDATE_NUM=None):
