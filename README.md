@@ -168,7 +168,8 @@ Here’s a sample wrong response from the QA experiment with REALM. Some of the 
     ],
     "answer": "moons around Jupiter",
     "response": "a kind of telescope"
-}```
+}
+```
 
 In the result below, the language model did not synthesize the correct response even though one of the retrieved statements had it.
 ```json
@@ -182,7 +183,8 @@ In the result below, the language model did not synthesize the correct response 
     ],
     "answer": "The area was once covered by water.",
     "response": "found in the desert"
-}```
+}
+```
 
 Here's a sample correct response from the QA experiment with REALM. Retrieved statements are relevant to context and the response is reasonable.
 ```json
@@ -194,7 +196,8 @@ Here's a sample correct response from the QA experiment with REALM. Retrieved st
     ],
     "answer": "They become eroded.",
     "response": "erosion"
-}```
+}
+```
 
 Similarly, here are the equivalent results when the QA experiments were run with Contriever and ATLAS.
 In this result, the retrieved statements are relevant to context but the language model, while doing a good job of returning a context relevant response, it doesn’t do a good job of answering as though it responded to the actual question. It appeared to have simply lifted one of the retrieved statements verbatim, as a response.
@@ -209,7 +212,8 @@ In this result, the retrieved statements are relevant to context but the languag
     ],
     "answer": "moons around Jupiter",
     "response": "Moons orbit planets"
-}```
+}
+```
 In this result below, Contriever retrieves relevant statements, ATLAS synthesizes a mildly reasonable response but grammatically incorrect and would only make sense to someone who already has an idea what the external knowledge provided to the RALM looks like.
 
 ```json
@@ -223,7 +227,8 @@ In this result below, Contriever retrieves relevant statements, ATLAS synthesize
     ],
     "answer": "The area was once covered by water.",
     "response": "the past used to be covered by water"
-}```
+}
+```
 
 In the result below, retrieved statements and synthesized response were relevant to the context and accurate.
 ```json
@@ -235,4 +240,5 @@ In the result below, retrieved statements and synthesized response were relevant
     ],
     "answer": "They become eroded.",
     "response": "erosion follows weathering."
-}```
+}
+```
