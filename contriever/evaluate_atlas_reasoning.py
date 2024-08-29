@@ -29,6 +29,8 @@ def _get_eval_data_iterator(opt, data_path, task):
     data_iterator = filter(None, map(task.process, data_iterator, repeat(opt.reason_fact_type)))
     # data_iterator = filter(None, map(partial(task.process, opt.my_fact_type), data_iterator))
     data_iterator = list(task.batch_iterator(data_iterator, opt.per_gpu_batch_size))
+    dist.init_process_group(backend='nccl', init_method='env://', rank=opt.global_rank, world_size=opt.world_size)
+
     if dist.is_initialized():
         len_data = torch.tensor(len(data_iterator)).cuda()
         dist.all_reduce(len_data, torch.distributed.ReduceOp.MAX)
