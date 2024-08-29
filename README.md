@@ -155,3 +155,84 @@ A list of the script arguments is explained below:
 - `reason_dataset`: 'strategyqa' | 'entailmentbank'
 </p></details>
 
+### Results
+Here’s a sample wrong response from the QA experiment with REALM. Some of the retrieved statements are challenging to relate to the query.
+```json
+{
+    "query": "Which of the following is visible through a reflecting telescope?",
+    "retrieved_statements": [
+        "A reflecting telescope is a kind of telescope.",
+        "A telescope is used for observing moons by astronomers.",
+        "Moons orbit planets.",
+        "Jupiter is a kind of planet."
+    ],
+    "answer": "moons around Jupiter",
+    "response": "a kind of telescope"
+}```
+
+In the result below, the language model did not synthesize the correct response even though one of the retrieved statements had it.
+```json
+{
+    "query": "A scientist discovered a fossil of an ocean plant in the rocks of a desert. What does the discovery of this fossil most likely tell the scientist?",
+    "retrieved_statements": [
+        "A fossil of an ocean plant is found in the desert.",
+        "If fossils of a water animal or plant are found in a place then that place used to be covered by water in the past.",
+        "An ocean plant is a kind of water plant.",
+        "A desert is a kind of place."
+    ],
+    "answer": "The area was once covered by water.",
+    "response": "found in the desert"
+}```
+
+Here's a sample correct response from the QA experiment with REALM. Retrieved statements are relevant to context and the response is reasonable.
+```json
+{
+    "query": "Rocks in warm and humid environments can be weathered faster than rocks in other environments. Which is most likely the next step in the rock cycle for weathered rocks?",
+    "retrieved_statements": [
+        "In the rock cycle , erosion follows weathering.",
+        "If a step follows another step , then that step will be the next step."
+    ],
+    "answer": "They become eroded.",
+    "response": "erosion"
+}```
+
+Similarly, here are the equivalent results when the QA experiments were run with Contriever and ATLAS.
+In this result, the retrieved statements are relevant to context but the language model, while doing a good job of returning a context relevant response, it doesn’t do a good job of answering as though it responded to the actual question. It appeared to have simply lifted one of the retrieved statements verbatim, as a response.
+```json
+{
+    "query": "question: Which of the following is visible through a reflecting telescope? answer: <extra_id_0>",
+    "retrieved_statements": [
+        "A reflecting telescope is a kind of telescope.",
+        "A telescope is used for observing moons by astronomers.",
+        "Moons orbit planets.",
+        "Jupiter is a kind of planet."
+    ],
+    "answer": "moons around Jupiter",
+    "response": "Moons orbit planets"
+}```
+In this result below, Contriever retrieves relevant statements, ATLAS synthesizes a mildly reasonable response but grammatically incorrect and would only make sense to someone who already has an idea what the external knowledge provided to the RALM looks like.
+
+```json
+{
+    "query": "question: A scientist discovered a fossil of an ocean plant in the rocks of a desert. What does the discovery of this fossil most likely tell the scientist? answer: <extra_id_0>",
+    "retrieved_statements": [
+        "A fossil of an ocean plant is found in the desert.",
+        "If fossils of a water animal or plant are found in a place then that place used to be covered by water in the past.",
+        "An ocean plant is a kind of water plant.",
+        "A desert is a kind of place."
+    ],
+    "answer": "The area was once covered by water.",
+    "response": "the past used to be covered by water"
+}```
+
+In the result below, retrieved statements and synthesized response were relevant to the context and accurate.
+```json
+{
+    "query": "question: Rocks in warm and humid environments can be weathered faster than rocks in other environments. Which is most likely the next step in the rock cycle for weathered rocks? answer: <extra_id_0>",
+    "retrieved_statements": [
+        "In the rock cycle , erosion follows weathering.",
+        "If a step follows another step , then that step will be the next step."
+    ],
+    "answer": "They become eroded.",
+    "response": "erosion follows weathering."
+}```
